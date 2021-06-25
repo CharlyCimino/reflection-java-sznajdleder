@@ -2,6 +2,8 @@ package reflection;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
+import java.util.Arrays;
 
 /**
  *
@@ -10,31 +12,40 @@ import java.lang.reflect.Method;
  * GitHub: https://github.com/CharlyCimino
  */
 public class Principal {
-    
+
     @SuppressWarnings("unchecked")
     public static void main(String[] args) {
         try {
             // definimos el nombre de la clase (incluyendo el paquete)
-            String sClass = "java.awt.Frame";
+            String sClass = "java.lang.Object";
             // obtengo una instancia de Class apuntando a la clase
             Class clazz = Class.forName(sClass);
-            // invoco al constructor que recibe un String como argumento
-            Class[] paramTypesConstructor = {String.class};
-            Object[] paramValuesConstructor = {"Ventana AWT Reflect"};
-            Constructor ctor = clazz.getConstructor(paramTypesConstructor);
-            Object obj = ctor.newInstance(paramValuesConstructor);
-            // invoco al metodo setSize que recibe dos enteros
-            String mtdName1 = "setSize";
-            Class[] pTypes1 = {Integer.TYPE, Integer.TYPE};
-            Object[] pValues1 = {300, 300};
-            Method mtd = obj.getClass().getMethod(mtdName1, pTypes1);
-            mtd.invoke(obj, pValues1);
-            // invoco al metodo setVisible que recibe un boolean
-            String mtdName2 = "setVisible";
-            Class[] pTypes2 = {Boolean.TYPE};
-            Object[] pValues2 = {true};
-            Method mtd2 = obj.getClass().getMethod(mtdName2, pTypes2);
-            mtd2.invoke(obj, pValues2);
+            Constructor ctor = clazz.getConstructor();
+            Object obj = ctor.newInstance();
+            
+            String mtdName = "toString";
+            System.out.println("Método " + mtdName);
+            Method mtd = obj.getClass().getDeclaredMethod(mtdName);
+
+            int i = mtd.getModifiers();
+
+            /*
+            Este método retorna un int dentro del cual se encuentra codificada en potencias
+            de 2 la lista de modificadores del método m. Para decodificar esta lista, tenemos que
+            usar las constantes definidas en la clase java.lang.reflect.Modifiers.
+            */
+            
+            // https://es.wikipedia.org/wiki/Operador_a_nivel_de_bits#Determinando_el_estado_de_bits
+            if ((i & Modifier.PUBLIC) == i) {
+                System.out.println("Es publico");
+            }
+            if ((i & Modifier.STATIC) == i) {
+                System.out.println("Es estatico");
+            }
+            
+            Class clazzReturn = mtd.getReturnType();
+            System.out.println( "Retorna un " + clazzReturn.getName() );
+
         } catch (Exception ex) {
             throw new RuntimeException(ex);
         }
