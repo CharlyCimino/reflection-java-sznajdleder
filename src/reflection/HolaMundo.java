@@ -38,5 +38,5 @@ aplicada esta anotación. Algunas de las opciones son:
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 public @interface HolaMundo {
-    String nombre();
+    String nombre() default "Nombre no especificado";
 }

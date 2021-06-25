@@ -14,6 +14,7 @@ public class Principal {
         Class<?> clazz = Class.forName(sClass);
         HolaMundo a = clazz.getMethod("unMetodo").getAnnotation(HolaMundo.class);
         System.out.println("nombre = " + a.nombre());
+        HolaMundo a2 = clazz.getMethod("otroMetodo").getAnnotation(HolaMundo.class);
+        System.out.println("nombre = " + a2.nombre());
     }
-
 }

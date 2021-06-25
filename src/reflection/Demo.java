@@ -12,4 +12,9 @@ public class Demo {
     public void unMetodo() {
         System.out.println("Este es un metodo...");
     }
+    
+    @HolaMundo
+    public void otroMetodo() {
+        System.out.println("Este es un metodo...");
+    }
 }
